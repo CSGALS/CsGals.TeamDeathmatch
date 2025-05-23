@@ -107,7 +107,6 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 				sv_disable_radar 0;
 				mp_solid_teammates 1;
 				mp_autokick 0;
-				sv_infinite_ammo 2;
 
 				mp_timelimit 60;
 				mp_roundtime 60;
@@ -170,6 +169,27 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 			return false;
 		}
 		return PlayerData.TryGetValue(player.Slot, out data);
+	}
+
+	[GameEventHandler(HookMode.Post)]
+	public HookResult OnWeaponReload(EventWeaponReload e, GameEventInfo info)
+	{
+		var player = e.Userid;
+		if (player is null || !player.IsValid )
+			return HookResult.Continue;
+
+		var playerPawn = player.PlayerPawn.Value;
+		if (playerPawn is null || !playerPawn.IsValid)
+			return HookResult.Continue;
+
+		var activeWeapon = playerPawn.WeaponServices?.ActiveWeapon.Value;
+		if (activeWeapon is null || !activeWeapon.IsValid)
+			return HookResult.Continue;
+
+		//max out the ReserveAmmo on each reload
+		activeWeapon.ReserveAmmo[0] += 999;
+
+		return HookResult.Continue;
 	}
 
 	[GameEventHandler(HookMode.Pre)]
