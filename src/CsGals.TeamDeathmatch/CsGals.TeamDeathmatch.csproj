@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <PackageReference Include="CSSUniversalMenuAPI" Version="0.3.1" ExcludeAssets="runtime" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpModMenu", "src\CsGals.TeamDeathmatch\CsGals.TeamDeathmatch.csproj", "{F37FF179-F31A-4DF7-AD9F-69A09CCAA027}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6FE0B910-4E8A-44B4-AF72-8F4DC8036167}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+		global.json = global.json
+		LICENSE = LICENSE
+		NuGet.config = NuGet.config
+		package.sh = package.sh
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GitHub Actions", "GitHub Actions", "{1452E561-9FCD-4D3A-8072-CCD73A7B2168}"
+	ProjectSection(SolutionItems) = preProject
+		.github\continuous-delivery.yml = .github\continuous-delivery.yml
+		.github\continuous-integration.yml = .github\continuous-integration.yml
+		.github\dependabot.yml = .github\dependabot.yml
+		.github\deploy-release.yml = .github\deploy-release.yml
+		.github\regenerate-actions.sh = .github\regenerate-actions.sh
+		.github\shared.yml = .github\shared.yml
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F37FF179-F31A-4DF7-AD9F-69A09CCAA027}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F37FF179-F31A-4DF7-AD9F-69A09CCAA027}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F37FF179-F31A-4DF7-AD9F-69A09CCAA027}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F37FF179-F31A-4DF7-AD9F-69A09CCAA027}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{1452E561-9FCD-4D3A-8072-CCD73A7B2168} = {6FE0B910-4E8A-44B4-AF72-8F4DC8036167}
+	EndGlobalSection
+EndGlobal
