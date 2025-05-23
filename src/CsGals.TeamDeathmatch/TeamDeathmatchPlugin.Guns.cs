@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 
@@ -125,8 +126,16 @@ public partial class TeamDeathmatchPlugin
 			playerData.SecondaryWeaponModified = false;
 		}
 
+		var pawn = player.PlayerPawn.Value;
+
 		if (mode is LoadoutMode.Spawn or LoadoutMode.Primary)
 		{
+			var ownedGun = pawn?.WeaponServices?.MyWeapons
+				.Select(weapon => weapon.Value?.As<CCSWeaponBase>())
+				.FirstOrDefault(weaponBase => weaponBase?.VData?.GearSlot == gear_slot_t.GEAR_SLOT_RIFLE);
+			if (ownedGun is not null && ownedGun.IsValid)
+				ownedGun.Remove();
+
 			if (playerData.PrimaryWeapon == Gun.None)
 				;
 			else if (playerData.PrimaryWeapon == Gun.Random)
@@ -139,6 +148,12 @@ public partial class TeamDeathmatchPlugin
 
 		if (mode is LoadoutMode.Spawn or LoadoutMode.Secondary)
 		{
+			var ownedGun = pawn?.WeaponServices?.MyWeapons
+				.Select(weapon => weapon.Value?.As<CCSWeaponBase>())
+				.FirstOrDefault(weaponBase => weaponBase?.VData?.GearSlot == gear_slot_t.GEAR_SLOT_PISTOL);
+			if (ownedGun is not null && ownedGun.IsValid)
+				ownedGun.Remove();
+
 			if (playerData.SecondaryWeapon == Gun.None)
 				;
 			else if (playerData.SecondaryWeapon == Gun.Random)
