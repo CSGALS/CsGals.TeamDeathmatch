@@ -53,7 +53,7 @@ public sealed record Gun(string Class, string Name)
 	public static Gun MP5 = new("weapon_mp5sd", "MP5");
 	public static Gun Famas = new("weapon_famas", "Famas");
 	public static Gun Galil = new("weapon_galilar", "Galil");
-	public static Gun M4A4 = new("weapon_m4a4", "M4A4");
+	public static Gun M4A4 = new("weapon_m4a1", "M4A4");
 	public static Gun M4A1S = new("weapon_m4a1_silencer", "M4A1-S");
 	public static Gun AK47 = new("weapon_ak47", "AK47");
 	public static Gun AUG = new("weapon_aug", "AUG");
