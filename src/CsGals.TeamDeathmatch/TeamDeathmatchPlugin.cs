@@ -171,6 +171,28 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 		return PlayerData.TryGetValue(player.Slot, out data);
 	}
 
+
+	[GameEventHandler(HookMode.Post)]
+	public HookResult OnPlayerDeath(EventPlayerDeath e, GameEventInfo info)
+	{
+		if (e.Attacker is not null && e.Attacker.IsValid)
+		{
+			// do health award
+			var attackerPawn = e.Attacker.PlayerPawn;
+			if (attackerPawn.IsValid && attackerPawn.Value is not null && attackerPawn.Value.IsValid)
+			{
+				if (attackerPawn.Value.LifeState == (int)LifeState_t.LIFE_ALIVE)
+				{
+					var newHealth = Math.Min(attackerPawn.Value.MaxHealth, attackerPawn.Value.Health + 5);
+					attackerPawn.Value.Health = newHealth;
+					Utilities.SetStateChanged(attackerPawn.Value, "CBaseEntity", "m_iHealth");
+				}
+			}
+		}
+
+		return HookResult.Continue;
+	}
+
 	[GameEventHandler(HookMode.Post)]
 	public HookResult OnWeaponReload(EventWeaponReload e, GameEventInfo info)
 	{
