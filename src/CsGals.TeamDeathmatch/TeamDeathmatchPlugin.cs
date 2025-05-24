@@ -1,13 +1,17 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Cvars;
 using CounterStrikeSharp.API.Modules.Timers;
+using CounterStrikeSharp.API.Modules.Utils;
+using CounterStrikeSharp.API.ValveConstants.Protobuf;
 
 using static CounterStrikeSharp.API.Core.Listeners;
 
@@ -93,6 +97,8 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 	public override void Load(bool hotReload)
 	{
 		bool mapLoaded = false;
+
+		AddTimer(1.0f, BalanceBots, TimerFlags.REPEAT);
 		RegisterListener<OnMapEnd>(() => mapLoaded = false);
 		RegisterListener<OnMapStart>(map =>
 		{
@@ -102,11 +108,16 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 
 			Server.ExecuteCommand(
 				"""
+				bot_quota 0
 				sv_cheats 1;
 				sv_alltalk 1;
 				sv_disable_radar 0;
 				mp_solid_teammates 1;
 				mp_autokick 0;
+				mp_randomspawn 0;
+				mp_match_end_changelevel 1;
+				mp_spectators_max 5;
+				//mp_use_respawn_waves 1;
 
 				mp_timelimit 60;
 				mp_roundtime 60;
@@ -171,7 +182,6 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 		return PlayerData.TryGetValue(player.Slot, out data);
 	}
 
-
 	[GameEventHandler(HookMode.Post)]
 	public HookResult OnPlayerDeath(EventPlayerDeath e, GameEventInfo info)
 	{
@@ -197,7 +207,7 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 	public HookResult OnWeaponReload(EventWeaponReload e, GameEventInfo info)
 	{
 		var player = e.Userid;
-		if (player is null || !player.IsValid )
+		if (player is null || !player.IsValid)
 			return HookResult.Continue;
 
 		var playerPawn = player.PlayerPawn.Value;
