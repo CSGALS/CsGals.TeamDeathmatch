@@ -94,17 +94,23 @@ public sealed partial class TeamDeathmatchPlugin : BasePlugin
 	public override string ModuleDescription => "Team Deathmatch gamemode plugin";
 	public override string ModuleVersion => Verlite.Version.Full;
 
+	private ConVar? BotQuota { get; set; }
+
 	public override void Load(bool hotReload)
 	{
+		// use our own custom quota mechanism, as this one is borked
+		BotQuota = ConVar.Find("bot_quota");
+		BotQuota?.SetValue(0);
+
 		bool mapLoaded = false;
 
-		AddTimer(1.0f, BalanceBots, TimerFlags.REPEAT);
 		RegisterListener<OnMapEnd>(() => mapLoaded = false);
 		RegisterListener<OnMapStart>(map =>
 		{
 			if (mapLoaded)
 				return;
 			mapLoaded = true;
+			BotQuota?.SetValue(0);
 
 			Server.ExecuteCommand(
 				"""

@@ -7,6 +7,7 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Cvars;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using CounterStrikeSharp.API.ValveConstants.Protobuf;
 
@@ -42,14 +43,15 @@ public partial class TeamDeathmatchPlugin
 		if (e.Isbot)
 			return HookResult.Continue;
 
-		ExecutingPlayerTeams = true;
-		Server.NextWorldUpdate(BalanceBots);
-
+		AddTimer(0.1f, BalanceBots, TimerFlags.STOP_ON_MAPCHANGE);
 		return HookResult.Continue;
 	}
 
 	public void BalanceBots()
 	{
+		if (ExecutingPlayerTeams)
+			return;
+
 		ExecutingPlayerTeams = true;
 		using var inhibitor = new ExecDeferred(() => ExecutingPlayerTeams = false);
 

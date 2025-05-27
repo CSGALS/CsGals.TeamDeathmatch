@@ -134,7 +134,7 @@ public partial class TeamDeathmatchPlugin
 				.Select(weapon => weapon.Value?.As<CCSWeaponBase>())
 				.FirstOrDefault(weaponBase => weaponBase?.VData?.GearSlot == gear_slot_t.GEAR_SLOT_RIFLE);
 			if (ownedGun is not null && ownedGun.IsValid)
-				ownedGun.Remove();
+				pawn?.RemovePlayerItem(ownedGun);
 
 			if (playerData.PrimaryWeapon == Gun.None)
 				;
@@ -152,7 +152,7 @@ public partial class TeamDeathmatchPlugin
 				.Select(weapon => weapon.Value?.As<CCSWeaponBase>())
 				.FirstOrDefault(weaponBase => weaponBase?.VData?.GearSlot == gear_slot_t.GEAR_SLOT_PISTOL);
 			if (ownedGun is not null && ownedGun.IsValid)
-				ownedGun.Remove();
+				pawn?.RemovePlayerItem(ownedGun);
 
 			if (playerData.SecondaryWeapon == Gun.None)
 				;
